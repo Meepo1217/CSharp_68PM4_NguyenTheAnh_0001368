@@ -90,6 +90,11 @@ namespace login
     public partial class UCQLSV : UserControl
     {
         private int selectedId = -1;
+        private int currentPage = 1;
+        private int pageSize = 10;
+        private int totalRecords = 0;
+        private int totalPages = 1;
+        private string currentSearchQuery = "";
         public UCQLSV()
         {
             InitializeComponent();
@@ -105,8 +110,25 @@ namespace login
         public void LoadData()
         {
             DatabaseDataContext db = new DatabaseDataContext();
-            List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
+            var query = db.tbl_sinhviens.AsQueryable();
+
+            if (!string.IsNullOrEmpty(currentSearchQuery))
+            {
+                query = query.Where(x => x.hoten.Contains(currentSearchQuery) || 
+                                         x.masv.Contains(currentSearchQuery) || 
+                                         x.malop.Contains(currentSearchQuery));
+            }
+
+            totalRecords = query.Count();
+            totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            if (totalPages == 0) totalPages = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            var dSSV = query.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
             dataGridView1.DataSource = dSSV;
+
+            label7.Text = $"Trang {currentPage}/{totalPages}   |   {totalRecords} bản ghi";
         }
 
         public void LoadComboBoxGioiTinh()
@@ -213,6 +235,49 @@ namespace login
                     MessageBox.Show("Xóa sinh viên thành công!");
                     button3_Click(sender, e);
                 }
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            currentSearchQuery = textBox5.Text.Trim();
+            currentPage = 1;
+            LoadData();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage = 1;
+                LoadData();
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                LoadData();
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (currentPage < totalPages)
+            {
+                currentPage++;
+                LoadData();
+            }
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            if (currentPage < totalPages)
+            {
+                currentPage = totalPages;
+                LoadData();
             }
         }
     }
