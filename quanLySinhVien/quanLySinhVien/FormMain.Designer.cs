@@ -1,4 +1,4 @@
-﻿namespace login
+namespace login
 {
     partial class FormMain
     {
@@ -38,28 +38,23 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(12, 86);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 48);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2522, 1089);
+            this.panel1.Size = new System.Drawing.Size(2560, 1153);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // menuStrip1
             // 
-            this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuStrip1.AutoSize = false;
-            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.Top;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.quảnLýLớpHọcToolStripMenuItem,
             this.quảnLýLớpHọcToolStripMenuItem1,
             this.đăngXuấtToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2225, 48);
+            this.menuStrip1.Size = new System.Drawing.Size(2560, 48);
             this.menuStrip1.TabIndex = 19;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -95,6 +90,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "FormMain";
             this.Text = "FormMain";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMain_FormClosed);
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

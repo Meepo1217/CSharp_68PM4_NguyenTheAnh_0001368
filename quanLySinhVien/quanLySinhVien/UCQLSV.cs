@@ -14,87 +14,12 @@ namespace login
     public partial class UCQLSV : UserControl
     {
         private int selectedId = -1;
-        public UCQLSV()
-        {
-            InitializeComponent();
-        }
-
-        private void UCQLSV_Load(object sender, EventArgs e)
-        {
-            LoadData();
-            LoadComboBoxGioiTinh();
-            LoadComboBoxLop();
-        }
-
-        public void LoadData()
-        {
-            DatabaseDataContext db = new DatabaseDataContext();
-            List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
-            dataGridView1.DataSource = dSSV;
-        }
-
-        public void LoadComboBoxGioiTinh()
-        {
-            cboGioiTinh.Items.Clear();
-            cboGioiTinh.Items.Add("Nam");
-            cboGioiTinh.Items.Add("Nữ");
-            cboGioiTinh.SelectedIndex = -1;
-
-        }
-        public void LoadComboBoxLop()
-        {
-            DatabaseDataContext db = new DatabaseDataContext();
-            List<tbl_lophoc> dSLop = db.tbl_lophocs.ToList();
-            cboLop.DataSource = dSLop;
-            cboLop.DisplayMember = "tenlop";
-            cboLop.ValueMember = "malop";
-            cboLop.SelectedIndex = -1;
-        }
-
-        private void btlThem_Click(object sender, EventArgs e)
-        {
-            DatabaseDataContext db = new DatabaseDataContext();
-            tbl_sinhvien sv = new tbl_sinhvien();
-            sv.masv = txtMaSV.Text;
-            sv.hoten = txtHoTen.Text;
-            sv.gioitinh = cboGioiTinh.SelectedItem.ToString();
-            sv.ngaysinh = dtpNgaySinh.Value;
-            sv.malop = cboLop.SelectedValue.ToString();
-            db.tbl_sinhviens.InsertOnSubmit(sv);
-            db.SubmitChanges();
-            LoadData();
-        }
-
-        private void cboGioiTinh_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            txtMaSV.Clear();
-            txtHoTen.Clear();
-using QuanLySinhVien;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace login
-{
-    public partial class UCQLSV : UserControl
-    {
-        private int selectedId = -1;
         private int currentPage = 1;
         private int pageSize = 10;
         private int totalRecords = 0;
         private int totalPages = 1;
         private string currentSearchQuery = "";
+        
         public UCQLSV()
         {
             InitializeComponent();
@@ -128,7 +53,7 @@ namespace login
             var dSSV = query.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
             dataGridView1.DataSource = dSSV;
 
-            label7.Text = $"Trang {currentPage}/{totalPages}   |   {totalRecords} bản ghi";
+            label7.Text = string.Format("Trang {0}/{1}   |   {2} bản ghi", currentPage, totalPages, totalRecords);
         }
 
         public void LoadComboBoxGioiTinh()
@@ -186,11 +111,11 @@ namespace login
                 if (row.Cells["id"].Value != null)
                 {
                     selectedId = Convert.ToInt32(row.Cells["id"].Value);
-                    txtMaSV.Text = row.Cells["masv"].Value?.ToString();
-                    txtHoTen.Text = row.Cells["hoten"].Value?.ToString();
-                    cboGioiTinh.SelectedItem = row.Cells["gioitinh"].Value?.ToString();
+                    txtMaSV.Text = Convert.ToString(row.Cells["masv"].Value);
+                    txtHoTen.Text = Convert.ToString(row.Cells["hoten"].Value);
+                    cboGioiTinh.SelectedItem = Convert.ToString(row.Cells["gioitinh"].Value);
                     dtpNgaySinh.Value = Convert.ToDateTime(row.Cells["ngaysinh"].Value);
-                    cboLop.SelectedValue = row.Cells["malop"].Value?.ToString();
+                    cboLop.SelectedValue = Convert.ToString(row.Cells["malop"].Value);
                 }
             }
         }

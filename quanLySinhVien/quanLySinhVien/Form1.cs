@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -48,6 +48,9 @@ namespace QuanLySinhVien
             if (username == email && password == mssv)
             {
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                login.FormMain formMain = new login.FormMain();
+                formMain.Show();
+                this.Hide();
             }
             else
             {

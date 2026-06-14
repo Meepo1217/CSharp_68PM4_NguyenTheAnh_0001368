@@ -301,6 +301,7 @@ namespace login
             this.dataGridView1.RowTemplate.Height = 33;
             this.dataGridView1.Size = new System.Drawing.Size(840, 534);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // UCQLSV
             // 
@@ -322,6 +323,7 @@ namespace login
             this.Controls.Add(this.btlThem);
             this.Name = "UCQLSV";
             this.Size = new System.Drawing.Size(1703, 844);
+            this.AutoScroll = true;
             this.Load += new System.EventHandler(this.UCQLSV_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

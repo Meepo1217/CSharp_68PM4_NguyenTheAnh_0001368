@@ -143,6 +143,7 @@ namespace login
             this.button5.TabIndex = 21;
             this.button5.Text = "Xem danh sách sinh viên";
             this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button3
             // 
@@ -345,6 +346,7 @@ namespace login
             this.Controls.Add(this.panel2);
             this.Name = "UCQLLH";
             this.Size = new System.Drawing.Size(1570, 903);
+            this.AutoScroll = true;
             this.Load += new System.EventHandler(this.UCQLLH_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

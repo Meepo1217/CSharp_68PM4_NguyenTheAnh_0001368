@@ -1,4 +1,3 @@
-﻿using login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace QuanLySinhVien
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
+            Application.Run(new Form1());
         }
     }
 }

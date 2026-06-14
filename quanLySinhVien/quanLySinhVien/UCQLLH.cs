@@ -125,12 +125,48 @@ namespace login
                 if (row.Cells["Column1"].Value != null)
                 {
                     selectedId = Convert.ToInt32(row.Cells["Column1"].Value);
-                    textBox1.Text = row.Cells["Column1"].Value?.ToString(); // ID
-                    textBox2.Text = row.Cells["Column2"].Value?.ToString(); // Mã lớp
-                    textBox3.Text = row.Cells["Column3"].Value?.ToString(); // Tên lớp
-                    textBox4.Text = row.Cells["Column4"].Value?.ToString(); // Ghi chú
+                    textBox1.Text = Convert.ToString(row.Cells["Column1"].Value); // ID
+                    textBox2.Text = Convert.ToString(row.Cells["Column2"].Value); // Mã lớp
+                    textBox3.Text = Convert.ToString(row.Cells["Column3"].Value); // Tên lớp
+                    textBox4.Text = Convert.ToString(row.Cells["Column4"].Value); // Ghi chú
                 }
             }
+        }
+
+        private void button5_Click(object sender, EventArgs e) // Xem danh sách sinh viên
+        {
+            if (selectedId == -1)
+            {
+                MessageBox.Show("Vui lòng chọn một lớp học từ danh sách để xem sinh viên!");
+                return;
+            }
+            
+            string maLop = textBox2.Text;
+            string tenLop = textBox3.Text;
+            
+            Form frm = new Form();
+            frm.Text = "Danh sách sinh viên lớp " + tenLop + " (" + maLop + ")";
+            frm.Size = new Size(800, 450);
+            frm.StartPosition = FormStartPosition.CenterParent;
+            
+            DataGridView dgv = new DataGridView();
+            dgv.Dock = DockStyle.Fill;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.ReadOnly = true;
+            dgv.AllowUserToAddRows = false;
+            
+            DatabaseDataContext db = new DatabaseDataContext();
+            var listSV = db.tbl_sinhviens.Where(x => x.malop == maLop).Select(x => new {
+                Mã_SV = x.masv,
+                Họ_Tên = x.hoten,
+                Giới_Tính = x.gioitinh,
+                Ngày_Sinh = x.ngaysinh
+            }).ToList();
+            
+            dgv.DataSource = listSV;
+            
+            frm.Controls.Add(dgv);
+            frm.ShowDialog();
         }
     }
 }
