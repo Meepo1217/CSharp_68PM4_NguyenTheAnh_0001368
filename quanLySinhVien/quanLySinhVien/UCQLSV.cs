@@ -194,5 +194,26 @@ namespace login
                 LoadData();
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (selectedId == -1)
+            {
+                MessageBox.Show("Vui lòng chọn sinh viên cần xóa từ danh sách!");
+                return;
+            }
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa sinh viên này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                DatabaseDataContext db = new DatabaseDataContext();
+                var sv = db.tbl_sinhviens.SingleOrDefault(x => x.id == selectedId);
+                if (sv != null)
+                {
+                    db.tbl_sinhviens.DeleteOnSubmit(sv);
+                    db.SubmitChanges();
+                    MessageBox.Show("Xóa sinh viên thành công!");
+                    button3_Click(sender, e);
+                }
+            }
+        }
     }
 }
