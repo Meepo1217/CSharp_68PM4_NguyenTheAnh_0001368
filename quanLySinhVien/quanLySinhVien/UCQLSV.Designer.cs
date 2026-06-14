@@ -1,4 +1,4 @@
-﻿namespace login
+namespace login
 {
     partial class UCQLSV
     {

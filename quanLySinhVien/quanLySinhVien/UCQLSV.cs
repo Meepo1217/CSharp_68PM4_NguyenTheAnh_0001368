@@ -1,4 +1,4 @@
-﻿using QuanLySinhVien;
+using QuanLySinhVien;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +13,7 @@ namespace login
 {
     public partial class UCQLSV : UserControl
     {
+        private int selectedId = -1;
         public UCQLSV()
         {
             InitializeComponent();
@@ -20,15 +21,18 @@ namespace login
 
         private void UCQLSV_Load(object sender, EventArgs e)
         {
+            LoadData();
+            LoadComboBoxGioiTinh();
+            LoadComboBoxLop();
+        }
+
+        public void LoadData()
+        {
             DatabaseDataContext db = new DatabaseDataContext();
             List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
             dataGridView1.DataSource = dSSV;
-
-            LoadComboBoxGioiTinh();
-            LoadComboBoxLop();
-
-
         }
+
         public void LoadComboBoxGioiTinh()
         {
             cboGioiTinh.Items.Clear();
@@ -58,16 +62,12 @@ namespace login
             sv.malop = cboLop.SelectedValue.ToString();
             db.tbl_sinhviens.InsertOnSubmit(sv);
             db.SubmitChanges();
-            List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
-            dataGridView1.DataSource = dSSV;
-
-
+            LoadData();
         }
 
         private void cboGioiTinh_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -76,12 +76,25 @@ namespace login
             txtHoTen.Clear();
             cboLop.SelectedIndex = -1;
             cboGioiTinh.SelectedIndex = -1;
-            DatabaseDataContext db = new DatabaseDataContext();
-            List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
-            dataGridView1.DataSource = dSSV;
-            
-           
-            
+            selectedId = -1;
+            LoadData();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = this.dataGridView1.Rows[e.RowIndex];
+                if (row.Cells["id"].Value != null)
+                {
+                    selectedId = Convert.ToInt32(row.Cells["id"].Value);
+                    txtMaSV.Text = row.Cells["masv"].Value?.ToString();
+                    txtHoTen.Text = row.Cells["hoten"].Value?.ToString();
+                    cboGioiTinh.SelectedItem = row.Cells["gioitinh"].Value?.ToString();
+                    dtpNgaySinh.Value = Convert.ToDateTime(row.Cells["ngaysinh"].Value);
+                    cboLop.SelectedValue = row.Cells["malop"].Value?.ToString();
+                }
+            }
         }
     }
 }
